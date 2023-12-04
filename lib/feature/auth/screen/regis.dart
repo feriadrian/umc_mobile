@@ -107,6 +107,7 @@ class RegisPage extends StatelessWidget {
 
                           return null;
                         },
+                        obscureText: true,
                         controller: bloc.passwordC,
                         imageAsset: AppImages.lock,
                         hintText: 'Password',
@@ -129,11 +130,14 @@ class RegisPage extends StatelessWidget {
                             onPressed: () {
                               if (state.status != RegisStatus.loading) {
                                 if (bloc.formKey.currentState!.validate()) {
+                                  FocusScope.of(context).unfocus();
                                   bloc.add(OnRegisEvent());
                                 }
                               }
                             },
-                            child: Text('Buat akun'),
+                            child: state.status == RegisStatus.loading
+                                ? CircularProgressIndicator()
+                                : Text('Login'),
                           ),
                         ),
                       ),

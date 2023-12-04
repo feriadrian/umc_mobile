@@ -15,8 +15,8 @@ final List<UserModel> userModels = [
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final GlobalKey<FormState> formKey = GlobalKey();
-  final usernameC = TextEditingController();
-  final passwordC = TextEditingController();
+  final usernameC = TextEditingController(text: kDebugMode ? 'Andrew19' : '');
+  final passwordC = TextEditingController(text: kDebugMode ? 'password' : '');
   AuthBloc() : super(AuthInitial(errorMessage: '', status: AuthStatus.idle)) {
     on<OnLoginEvent>(onLoginEvent);
     on<ClearEvent>(clearEvent);

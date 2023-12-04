@@ -10,6 +10,7 @@ import 'package:umc_mobile/constant/image_assets.dart';
 import 'package:umc_mobile/constant/textstyle.dart';
 import 'package:umc_mobile/feature/auth/bloc/auth_bloc/auth_bloc.dart';
 import 'package:umc_mobile/feature/auth/screen/regis.dart';
+import 'package:umc_mobile/feature/navbar/navbar.dart';
 
 class MainAuth extends StatelessWidget {
   const MainAuth({super.key});
@@ -31,7 +32,16 @@ class MainAuth extends StatelessWidget {
                         snackBarType: SnackBarType.error);
                     break;
                   case AuthStatus.success:
-                    debugPrint('Sukses');
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            Navbar(username: bloc.usernameC.text),
+                      ),
+                      (route) =>
+                          false, // Kondisi untuk menghapus semua halaman di atas
+                    );
+
                     break;
                   default:
                 }
@@ -122,6 +132,8 @@ class MainAuth extends StatelessWidget {
                             onPressed: () {
                               if (state.status != AuthStatus.loading) {
                                 if (bloc.formKey.currentState!.validate()) {
+                                  FocusScope.of(context).unfocus();
+
                                   bloc.add(OnLoginEvent());
                                 }
                               }
@@ -164,20 +176,6 @@ class BuatAkun extends StatefulWidget {
 }
 
 class _BuatAkunState extends State<BuatAkun> {
-  // late TapGestureRecognizer tapGestureRecognizer;
-  // @override
-  // void initState() {
-  //   tapGestureRecognizer = TapGestureRecognizer()
-
-  //     ..onTap = () {
-  //       Navigator.of(context).push(
-  //         MaterialPageRoute(builder: (_) => const RegisPage()),
-  //       );
-
-  //     };
-  //   super.initState();
-  // }
-
   @override
   Widget build(BuildContext context) {
     var bloc = context.read<AuthBloc>();
